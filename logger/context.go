@@ -1,4 +1,4 @@
-package logging
+package logger
 
 import (
 	"context"
@@ -51,7 +51,6 @@ func Warn(ctx context.Context, msg string, args ...any) {
 }
 
 // Error logs an error message with context
-func Error(ctx context.Context, msg string, err error, args ...any) {
-	allArgs := append([]any{"error", err}, args...)
-	FromContext(ctx).ErrorContext(ctx, msg, allArgs...)
+func Error(ctx context.Context, msg string, args ...any) {
+	FromContext(ctx).ErrorContext(ctx, msg, args...)
 }

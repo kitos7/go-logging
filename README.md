@@ -1,4 +1,4 @@
-# go-logging
+# go-logger
 
 Библиотека структурированного логирования для Go с поддержкой OpenTelemetry трейсинга.
 
@@ -21,28 +21,28 @@ go get github.com/kitos7/go-logging
 ### Создание логгера
 
 ```go
-import "github.com/kitos7/go-logging/logging"
+import "github.com/kitos7/go-logger/logger"
 
 // Конфигурация логгера
-config := &logging.Config{
-    Level:  "info",  // "debug", "info", "warn", "error"
-    Format: "json",  // "json" или "text"
+config := &logger.Config{
+Level:  "info", // "debug", "info", "warn", "error"
+Format: "json", // "json" или "text"
 }
 
-logger := logging.NewLogger(config)
+logger := logger.NewLogger(config)
 ```
 
 ### Context-based логирование
 
 ```go
 // Добавление логгера в контекст
-ctx := logging.WithLogger(context.Background(), logger)
+ctx := logger.WithLogger(context.Background(), logger)
 
 // Использование удобных функций для логирования
-logging.Info(ctx, "user logged in", "user_id", 123)
-logging.Debug(ctx, "processing request", "request_id", "abc-123")
-logging.Warn(ctx, "slow query detected", "duration", "5s")
-logging.Error(ctx, "database connection failed", err, "host", "localhost")
+logger.Info(ctx, "user logged in", "user_id", 123)
+logger.Debug(ctx, "processing request", "request_id", "abc-123")
+logger.Warn(ctx, "slow query detected", "duration", "5s")
+logger.Error(ctx, "database connection failed", err, "host", "localhost")
 ```
 
 ### Интеграция с OpenTelemetry
@@ -51,7 +51,7 @@ logging.Error(ctx, "database connection failed", err, "host", "localhost")
 
 ```go
 // Если в ctx есть активный OpenTelemetry span
-logging.Info(ctx, "operation completed")
+logger.Info(ctx, "operation completed")
 // Вывод будет содержать trace_id и span_id
 ```
 
@@ -59,7 +59,7 @@ logging.Info(ctx, "operation completed")
 
 ```go
 // Получение логгера из контекста с обогащением trace информацией
-logger := logging.FromContext(ctx)
+logger := logger.FromContext(ctx)
 logger.Info("custom message", "key", "value")
 ```
 
@@ -69,8 +69,8 @@ logger.Info("custom message", "key", "value")
 
 ```go
 type Config struct {
-    Level  string // "debug", "info", "warn", "error"
-    Format string // "json" или "text"
+Level  string // "debug", "info", "warn", "error"
+Format string // "json" или "text"
 }
 ```
 
@@ -82,13 +82,9 @@ type Config struct {
 - `Info(ctx context.Context, msg string, args ...any)` - логирование info сообщения
 - `Debug(ctx context.Context, msg string, args ...any)` - логирование debug сообщения
 - `Warn(ctx context.Context, msg string, args ...any)` - логирование warning сообщения
-- `Error(ctx context.Context, msg string, err error, args ...any)` - логирование error сообщения
+- `Error(ctx context.Context, msg string, args ...any)` - логирование error сообщения
 
 ## Требования
 
 - Go 1.25.1 или выше
 - go.opentelemetry.io/otel/trace v1.38.0
-
-## Лицензия
-
-MIT

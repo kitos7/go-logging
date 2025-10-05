@@ -1,4 +1,4 @@
-package logging
+package logger
 
 import (
 	"log/slog"
@@ -6,7 +6,6 @@ import (
 	"strings"
 )
 
-// Config holds the configuration for the logger
 type Config struct {
 	Level  string // "debug", "info", "warn", "error"
 	Format string // "json" or "text"
